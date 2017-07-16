@@ -13,7 +13,6 @@ use app\controller;
 use app\models\modelUsuario as modelUsuario;
 
 require_once 'controllerAbstract.php';
-//require_once '../models/modelUsuario.php';
 
 class controllerUsuario extends controllerAbstract {
 
@@ -23,9 +22,9 @@ class controllerUsuario extends controllerAbstract {
             $app = $params[0];
             $req = $_GET;
 
-            return json_encode([
-                'id' => $req['id']
-            ]);
+            $usuario = new modelUsuario($app);
+
+            return json_encode($usuario->getById($req['id']));
         } catch(Exception $e) {
             return json_encode([
                 'erro' => $e->getMessage()

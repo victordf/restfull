@@ -55,6 +55,21 @@ abstract class modelAbstract {
     }
 
     /**
+     *  Retorna o registro pelo ID
+     *
+     * @param null $id
+     * @return mixed
+     */
+    public function getById($id = null){
+        $colunas = implode(', ',array_keys($this->arAtributos));
+        $id = empty($id) ? $this->arAtributos[$this->campoId] : $id;
+        $sql = <<<SQL
+          SELECT {$colunas} FROM {$this->tableName} WHERE {$this->campoId} = {$id}
+SQL;
+        return $this->db->fetchAll($sql);
+    }
+
+    /**
      *  Função que carrega as informações de um array nos campos da model.
      *
      * @param array $dados
