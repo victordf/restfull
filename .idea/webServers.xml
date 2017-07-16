@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="5dc8f23c-2fe6-4c68-b6ed-c0077d9d37ee" name="Agendamento" url="http://ftp.bsvsolucoes.com.br">
+        <fileTransfer host="ftp.bsvsolucoes.com.br" port="21" rootFolder="/pjag" accessType="FTPS" password="df8bdfeadf89df8edf9fdf9cdf9ddf92" username="anonymous@bsvsolucoes.com.br">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
