@@ -19,4 +19,9 @@ class modelUsuario extends modelAbstract {
         'user' => null,
         'senha' => null
     ];
+
+    public function antesSave(){
+        global $encoder;
+        $this->arAtributos['senha'] = $encoder->encodePassword($this->arAtributos['senha'], '');
+    }
 }

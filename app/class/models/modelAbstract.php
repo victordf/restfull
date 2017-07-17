@@ -46,12 +46,20 @@ abstract class modelAbstract {
      */
     public function save(){
         if(!$this->arAtributos[$this->campoId]){
+            $this->antesSave();
             $this->db->insert($this->tableName, $this->arAtributos);
             $id = $this->db->lastInsertId();
             $this->arAtributos[$this->campoId] = $id;
         } else {
             $this->db->update($this->tableName, $this->arAtributos, [$this->campoId => $this->arAtributos[$this->campoId]]);
         }
+    }
+
+    /**
+     *  Função executada antes do salvar.
+     */
+    public function antesSave(){
+        // Substituir esta função na classe filho
     }
 
     /**
