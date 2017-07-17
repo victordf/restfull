@@ -21,10 +21,11 @@ class controllerUsuario extends controllerAbstract {
             $params = func_get_args();
             $app = $params[0];
             $req = $_GET;
+            $id = !isset($req['id']) ? null : $req['id'];
 
             $usuario = new modelUsuario($app);
 
-            return json_encode($usuario->getById($req['id']));
+            return json_encode($usuario->getById($id));
         } catch(Exception $e) {
             return json_encode([
                 'erro' => $e->getMessage()

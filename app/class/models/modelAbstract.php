@@ -63,8 +63,12 @@ abstract class modelAbstract {
     public function getById($id = null){
         $colunas = implode(', ',array_keys($this->arAtributos));
         $id = empty($id) ? $this->arAtributos[$this->campoId] : $id;
+        $where = "";
+        if(!empty($id)){
+            $where = "WHERE {$this->campoId} = {$id}";
+        }
         $sql = <<<SQL
-          SELECT {$colunas} FROM {$this->tableName} WHERE {$this->campoId} = {$id}
+          SELECT {$colunas} FROM {$this->tableName} {$where}
 SQL;
         return $this->db->fetchAll($sql);
     }
