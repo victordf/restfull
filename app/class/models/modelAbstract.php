@@ -25,9 +25,11 @@ abstract class modelAbstract {
      */
     protected $arAtributos;
 
+    protected $app;
     protected $db;
 
     public function __construct(\Silex\Application $app){
+        $this->app = $app;
         $this->db = $app['db'];
     }
 
@@ -47,12 +49,13 @@ abstract class modelAbstract {
     public function save(){
         if(!$this->arAtributos[$this->campoId]){
             $this->antesSave();
-            $this->db->insert($this->tableName, $this->arAtributos);
+            $this->db->insert($this->tableName, $this->getCamposCarregados());
             $id = $this->db->lastInsertId();
             $this->arAtributos[$this->campoId] = $id;
         } else {
-            $this->db->update($this->tableName, $this->arAtributos, [$this->campoId => $this->arAtributos[$this->campoId]]);
+            $this->db->update($this->tableName, $this->getCamposCarregados(), [$this->campoId => $this->arAtributos[$this->campoId]]);
         }
+        $this->depoisSave();
     }
 
     /**
@@ -60,6 +63,23 @@ abstract class modelAbstract {
      */
     public function antesSave(){
         // Substituir esta função na classe filho
+    }
+
+    /**
+     *  Função executada depois do salvar.
+     */
+    public function depoisSave(){
+        // Substituir esta função na classe filho
+    }
+
+    public function getCamposCarregados(){
+        $ar = [];
+        foreach ($this->arAtributos as $key => $valor) {
+            if(!empty($valor)){
+                $ar[$key] = $valor;
+            }
+        }
+        return $ar;
     }
 
     /**
@@ -73,7 +93,7 @@ abstract class modelAbstract {
         $id = empty($id) ? $this->arAtributos[$this->campoId] : $id;
         $where = "";
         if(!empty($id)){
-            $where = "WHERE {$this->campoId} = {$id}";
+            $where = "WHERE {$this->campoId} = '{$id}'";
         }
         $sql = <<<SQL
           SELECT {$colunas} FROM {$this->tableName} {$where}
@@ -88,7 +108,9 @@ SQL;
      */
     public function carregaDados($dados = []){
         foreach ($dados as $key => $val) {
-            $this->arAtributos[$key] = $val;
+            if(array_key_exists($key, $this->arAtributos)) {
+                $this->arAtributos[$key] = $val;
+            }
         }
     }
 

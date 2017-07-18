@@ -15,9 +15,9 @@ class modelUsuario extends modelAbstract {
     protected $campoId = 'idusu';
     protected $arAtributos = [
         'idusu' => null,
-        'nome' => null,
-        'user' => null,
-        'senha' => null
+        'email' => null,
+        'senha' => null,
+        'tipo' => null
     ];
 
     public function antesSave(){

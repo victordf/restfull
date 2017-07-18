@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 use Doctrine\DBAL\Exception\SyntaxErrorException;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use app\controller\controllerUsuario as Usuario;
+use app\controller\controllerPaciente as Paciente;
 
 require_once 'vendor/autoload.php';
 require_once 'funcoes.php';
@@ -40,6 +41,7 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\RoutingServiceProvider());
 
 $app->mount('usuario', new Usuario());
+$app->mount('paciente', new Paciente());
 
 $app->get('/', function() use($app){
     throw new Exception('Método não especificado');
