@@ -11,6 +11,7 @@ use Doctrine\DBAL\Exception\SyntaxErrorException;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use app\controller\controllerUsuario as Usuario;
 use app\controller\controllerPaciente as Paciente;
+use app\controller\controllerPlanoSaude as PlanoSaude;
 
 require_once 'vendor/autoload.php';
 require_once 'funcoes.php';
@@ -42,9 +43,13 @@ $app->register(new Silex\Provider\RoutingServiceProvider());
 
 $app->mount('usuario', new Usuario());
 $app->mount('paciente', new Paciente());
+$app->mount('planosaude', new PlanoSaude());
 
 $app->get('/', function() use($app){
-    throw new Exception('Método não especificado');
+    return json_encode([
+        'erro' => 'Método não especificado'
+    ]);
+
 });
 
 $app->run();

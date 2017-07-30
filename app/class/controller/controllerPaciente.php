@@ -26,7 +26,7 @@ class controllerPaciente extends controllerAbstract {
             $usuario = new Model($app);
 
             return json_encode($usuario->getById($id));
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             return json_encode([
                 'erro' => $e->getMessage()
             ]);
@@ -34,17 +34,23 @@ class controllerPaciente extends controllerAbstract {
     }
 
     public function action_post_home(){
-        $params = func_get_args();
-        $app = $params[0];
-        $req = $_REQUEST;
+        try {
+            $params = func_get_args();
+            $app = $params[0];
+            $req = $_REQUEST;
 
-        $usuario = new Model($app);
-        $usuario->carregaDados($req);
-        $usuario->save();
+            $usuario = new Model($app);
+            $usuario->carregaDados($req);
+            $usuario->save();
 
-        return json_encode([
-            'msg' => 'Paciente salvo com sucesso'
-        ]);
+            return json_encode([
+                'msg' => 'Paciente salvo com sucesso'
+            ]);
+        } catch (\Exception $e) {
+            return json_encode([
+                'erro' => $e->getMessage()
+            ]);
+        }
     }
 
 }

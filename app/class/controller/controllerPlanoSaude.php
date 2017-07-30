@@ -2,19 +2,19 @@
 /**
  * Created by PhpStorm.
  * User: victor
- * Date: 16/07/17
- * Time: 13:23
+ * Date: 30/07/17
+ * Time: 13:04
  */
 
 namespace app\controller;
 
 use Silex\Application;
 use app\controller;
-use app\models\modelUsuario as modelUsuario;
+use app\models\modelPlanoSaude as Model;
 
 require_once 'controllerAbstract.php';
 
-class controllerUsuario extends controllerAbstract {
+class controllerPlanoSaude extends controllerAbstract {
 
     public function action_get_home(){
         try {
@@ -23,7 +23,7 @@ class controllerUsuario extends controllerAbstract {
             $req = $_GET;
             $id = !isset($req['id']) ? null : $req['id'];
 
-            $usuario = new modelUsuario($app);
+            $usuario = new Model($app);
 
             return json_encode($usuario->getById($id));
         } catch(\Exception $e) {
@@ -39,12 +39,20 @@ class controllerUsuario extends controllerAbstract {
             $app = $params[0];
             $req = $_REQUEST;
 
-            $usuario = new modelUsuario($app);
-            $usuario->carregaDados($req);
-            $usuario->save();
+            if(empty($req['codigo']) || !isset($req['codigo'])){
+                throw new \Exception('O campo "codigo" não foi informado.');
+            }
+
+            if(empty($req['nome']) || !isset($req['nome'])){
+                throw new \Exception('O campo "nome" não foi informado');
+            }
+
+            $model = new Model($app);
+            $model->carregaDados($req);
+            $model->save();
 
             return json_encode([
-                'mes' => 'Usuário salvo com sucesso'
+                'msg' => 'Plano de saúde salvo com sucesso'
             ]);
         } catch (\Exception $e) {
             return json_encode([
