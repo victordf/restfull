@@ -39,6 +39,10 @@ class controllerPaciente extends controllerAbstract {
             $app = $params[0];
             $req = $_REQUEST;
 
+            if(empty($req['cpf']) || !isset($req['cpf'])){
+                throw new \Exception('O campo "cpf" não foi informado.');
+            }
+
             $usuario = new Model($app);
             $usuario->carregaDados($req);
             $usuario->save();

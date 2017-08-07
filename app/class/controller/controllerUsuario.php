@@ -39,6 +39,18 @@ class controllerUsuario extends controllerAbstract {
             $app = $params[0];
             $req = $_REQUEST;
 
+            if(empty($req['email']) || !isset($req['email'])){
+                throw new \Exception('O campo "email" não foi informado.');
+            }
+
+            if(empty($req['senha']) || !isset($req['senha'])){
+                throw new \Exception('O campo "senha" não foi informado.');
+            }
+
+            if(empty($req['tipo']) || !isset($req['tipo'])){
+                throw new \Exception('O campo "tipo" não foi informado.');
+            }
+
             $usuario = new modelUsuario($app);
             $usuario->carregaDados($req);
             $usuario->save();
