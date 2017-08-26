@@ -16,11 +16,11 @@ require_once 'controllerAbstract.php';
 
 class controllerUsuario extends controllerAbstract {
 
-    public function action_get_home(){
+    public function home(){
         try {
             $params = func_get_args();
             $app = $params[0];
-            $req = $_GET;
+            $req = $_POST;
             $id = !isset($req['id']) ? null : $req['id'];
 
             $usuario = new modelUsuario($app);
@@ -33,33 +33,45 @@ class controllerUsuario extends controllerAbstract {
         }
     }
 
-    public function action_post_home(){
+    public function login(){
+        global $encoder;
+        $params = func_get_args();
+        $app = $params[0];
+        $req = $_REQUEST;
         try {
-            $params = func_get_args();
-            $app = $params[0];
-            $req = $_REQUEST;
 
             if(empty($req['email']) || !isset($req['email'])){
                 throw new \Exception('O campo "email" não foi informado.');
             }
-
+            
             if(empty($req['senha']) || !isset($req['senha'])){
                 throw new \Exception('O campo "senha" não foi informado.');
             }
 
-            if(empty($req['tipo']) || !isset($req['tipo'])){
-                throw new \Exception('O campo "tipo" não foi informado.');
-            }
-
             $usuario = new modelUsuario($app);
-            $usuario->carregaDados($req);
-            $usuario->save();
+            $usu = $usuario->getByEmailSenha($req['email'], $req['senha']);
 
-            return json_encode([
-                'mes' => 'Usuário salvo com sucesso'
-            ]);
+            if(!empty($usu)){
+                return $app->json(['usuario' => $usu]);
+            } else {
+                throw new \Exception('Erro ao logar');
+            }
         } catch (\Exception $e) {
-            return json_encode([
+            return $app->json([ 'usuario' => [
+                    'msg' => $e->getMessage()
+                ]
+            ]);
+        }
+    }
+
+    public function cadastro(){
+        $params = func_get_args();
+        $app = $params[0];
+        $req = $_REQUEST;
+        try {
+
+        } catch (\Exception $e) {
+            return $app->json([
                 'erro' => $e->getMessage()
             ]);
         }

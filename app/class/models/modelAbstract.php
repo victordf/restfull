@@ -98,7 +98,7 @@ abstract class modelAbstract {
         $sql = <<<SQL
           SELECT {$colunas} FROM {$this->tableName} {$where}
 SQL;
-        return $this->db->fetchAll($sql);
+        return $this->db->fetchAll($sql)[0];
     }
 
     /**

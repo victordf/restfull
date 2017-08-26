@@ -31,7 +31,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
         'driver'      => 'pdo_mysql',
         'host'        => "localhost",
-        'dbname'      => "agendamento",
+        'dbname'      => "modeloapp",
         'user'        => "root",
         'password'    => "123456",
         'charset'     => 'utf8mb4'

@@ -21,16 +21,11 @@ abstract class controllerAbstract implements ControllerProviderInterface {
         $this->app = $app;
 
         foreach ($metodos as $metodo) {
-            $arName = explode('_', $metodo);
-            if($arName[0] == 'action'){
-                $type = $arName[1];
-                $name = $arName[2] == 'home' ? '/' : $arName[2];
-
-                $this->con->$type($name, function() use($app, $metodo){
-                    return $this->$metodo($app);
-                });
-
-            }
+//            $method = $metodo == 'home' ? 'get' : 'post';
+            $url = $metodo == 'home' ? '/' : $metodo;
+            $this->con->post($url, function() use($app, $metodo){
+                return $this->$metodo($app);
+            });
         }
 
         return $this->con;
